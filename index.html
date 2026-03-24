@@ -6,8 +6,8 @@
     <title>Pan Campesino Pro - Estructura de Costos</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background-color: #fefaf6; -webkit-tap-highlight-color: transparent; }
-        .card-shadow { box-shadow: 0 10px 25px -5px rgba(249, 115, 22, 0.1); }
+        body { background-color: #f0fdf4; -webkit-tap-highlight-color: transparent; }
+        .card-shadow { box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.1); }
         input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         input[type=number] { -moz-appearance: textfield; }
         .no-wrap { white-space: nowrap; }
@@ -16,10 +16,10 @@
 <body class="p-2 md:p-6 font-sans text-gray-800">
     <div class="max-w-md mx-auto">
         
-        <div class="bg-gradient-to-r from-gray-800 to-gray-700 rounded-t-xl p-4 text-white shadow-lg flex justify-between items-center">
+        <div class="bg-gradient-to-r from-emerald-700 to-emerald-600 rounded-t-xl p-4 text-white shadow-lg flex justify-between items-center">
             <div class="text-left">
                 <h1 class="text-2xl font-extrabold uppercase tracking-tight">Pan Campesino</h1>
-                <p class="text-gray-200 text-[10px] font-medium tracking-widest uppercase italic">Gestión de Fernando Araujo</p>
+                <p class="text-emerald-100 text-[10px] font-medium tracking-widest uppercase italic">Gestión de Fernando Araujo</p>
             </div>
             <button onclick="verificarAcceso()" class="bg-white/10 p-2 rounded-full hover:bg-white/20 transition-all border border-white/30">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -28,40 +28,40 @@
             </button>
         </div>
 
-        <div class="bg-white rounded-b-xl card-shadow border border-gray-100 p-3">
+        <div class="bg-white rounded-b-xl card-shadow border border-emerald-100 p-3">
             
-            <div id="settings-panel" class="hidden bg-gray-50 p-4 rounded-xl border-2 border-dashed border-orange-200 mb-4">
+            <div id="settings-panel" class="hidden bg-emerald-50 p-4 rounded-xl border-2 border-dashed border-emerald-200 mb-4">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Base de Costos por Gramo ($)</h3>
+                    <h3 class="text-[10px] font-black text-emerald-700 uppercase tracking-widest">Base de Costos por Gramo ($)</h3>
                     <button onclick="cerrarAjustes()" class="text-red-500 text-[10px] font-bold uppercase">Cerrar</button>
                 </div>
                 <div id="prices-editor" class="grid grid-cols-1 gap-2 mb-4"></div>
-                <button onclick="savePrices()" class="w-full bg-green-600 text-white font-bold py-3 rounded-lg text-xs shadow-md">GUARDAR CAMBIOS EN COSTOS</button>
+                <button onclick="savePrices()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-lg text-xs shadow-md transition-colors">GUARDAR CAMBIOS EN COSTOS</button>
             </div>
 
-            <section class="bg-gray-50 p-3 rounded-lg border border-gray-100 mb-4">
+            <section class="bg-emerald-50/50 p-3 rounded-lg border border-emerald-100 mb-4">
                 <div>
-                    <label class="text-[9px] font-bold text-gray-500 uppercase tracking-wider block mb-1">Cantidad de Panes a Elaborar</label>
-                    <input type="number" id="cantidadPanes" placeholder="0" min="0" step="1" oninput="calcular()" class="w-full bg-white p-3 rounded-lg border border-gray-200 outline-none text-2xl font-black shadow-inner focus:border-gray-800 text-center">
+                    <label class="text-[9px] font-bold text-emerald-600 uppercase tracking-wider block mb-1">Cantidad de Panes a Elaborar</label>
+                    <input type="number" id="cantidadPanes" placeholder="0" min="0" step="1" oninput="calcular()" class="w-full bg-white p-3 rounded-lg border border-emerald-200 outline-none text-2xl font-black shadow-inner focus:border-emerald-600 text-center text-emerald-900">
                 </div>
             </section>
 
             <div class="overflow-x-auto">
                 <table class="w-full table-auto">
                     <thead>
-                        <tr class="text-gray-400 text-[10px] uppercase border-b border-gray-100 tracking-tighter">
+                        <tr class="text-emerald-400 text-[10px] uppercase border-b border-emerald-50 tracking-tighter">
                             <th class="px-1 py-2 text-left">Ingrediente</th>
                             <th class="px-1 py-2 text-right">Peso (g)</th>
                             <th class="px-1 py-2 text-right">Costo ($)</th>
                         </tr>
                     </thead>
-                    <tbody id="tabla-body" class="divide-y divide-gray-50 text-[13px]"></tbody>
-                    <tfoot class="border-t-2 border-gray-100">
-                        <tr class="bg-gray-50 text-gray-600">
+                    <tbody id="tabla-body" class="divide-y divide-emerald-50 text-[13px]"></tbody>
+                    <tfoot class="border-t-2 border-emerald-100">
+                        <tr class="bg-emerald-50/30 text-emerald-700">
                             <td class="px-2 py-2 font-bold text-[10px] uppercase">Masa Total a Preparar</td>
-                            <td id="total-gramos" colspan="2" class="px-2 py-2 text-right font-black text-lg italic text-gray-800 no-wrap">0 g</td>
+                            <td id="total-gramos" colspan="2" class="px-2 py-2 text-right font-black text-lg italic text-emerald-900 no-wrap">0 g</td>
                         </tr>
-                        <tr class="bg-gray-800 text-white shadow-inner">
+                        <tr class="bg-emerald-800 text-white shadow-inner">
                             <td class="px-2 py-3 font-bold text-[11px] rounded-l-lg uppercase tracking-tight">Costo Total Insumos ($)</td>
                             <td id="total-costo" colspan="2" class="px-2 py-3 text-right font-black text-xl rounded-r-lg">$ 0,00</td>
                         </tr>
@@ -69,13 +69,13 @@
                 </table>
             </div>
 
-            <button onclick="copyToClipboard()" class="mt-4 w-full bg-gray-600 text-white font-bold py-3 rounded-lg text-xs shadow-md active:scale-95 transition-all flex items-center justify-center gap-2">
+            <button onclick="copyToClipboard()" class="mt-4 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-lg text-xs shadow-md active:scale-95 transition-all flex items-center justify-center gap-2">
                 COPIAR RECETA PARA WHATSAPP
             </button>
         </div>
     </div>
 
-    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-black/90 text-white px-6 py-2 rounded-full text-[10px] font-bold opacity-0 transition-opacity pointer-events-none z-50"></div>
+    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-emerald-900/90 text-white px-6 py-2 rounded-full text-[10px] font-bold opacity-0 transition-opacity pointer-events-none z-50 shadow-xl"></div>
 
     <script>
         const CLAVE_MAESTRA = "1234";
@@ -119,10 +119,10 @@
             container.innerHTML = '';
             for (const [nombre, precio] of Object.entries(preciosActuales)) {
                 container.innerHTML += `
-                    <div class="flex items-center justify-between gap-2 bg-white p-2 rounded-lg border border-gray-100">
-                        <span class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">${nombre}</span>
+                    <div class="flex items-center justify-between gap-2 bg-white p-2 rounded-lg border border-emerald-100">
+                        <span class="text-[10px] font-bold text-emerald-600 uppercase tracking-widest">${nombre}</span>
                         <input type="number" step="0.000001" value="${precio}" data-ing="${nombre}" 
-                            class="price-input w-24 text-right text-xs font-mono bg-orange-50 p-1 rounded border border-orange-100 outline-none font-bold text-gray-800">
+                            class="price-input w-24 text-right text-xs font-mono bg-emerald-50 p-1 rounded border border-emerald-100 outline-none font-bold text-emerald-800">
                     </div>`;
             }
         }
@@ -139,7 +139,6 @@
 
         function calcular() {
             const inputCount = document.getElementById('cantidadPanes');
-            // Permitimos que esté vacío mientras el usuario escribe
             const count = parseInt(inputCount.value) || 0; 
 
             const pesoMasaTotalDeseada = count * MASA_PAN_ESTANDAR;
@@ -156,9 +155,9 @@
 
                 tbody.innerHTML += `
                     <tr>
-                        <td class="px-1 py-3 font-semibold text-gray-700 text-xs">${ing.nombre}</td>
+                        <td class="px-1 py-3 font-semibold text-emerald-800 text-xs">${ing.nombre}</td>
                         <td class="px-1 py-3 text-right font-bold text-gray-800 no-wrap text-sm">${fmtPeso.format(Math.round(gramos))} g</td>
-                        <td class="px-1 py-3 text-right text-gray-400 font-mono text-[11px] no-wrap border-l border-gray-50/50">$ ${fmtCosto.format(costo)}</td>
+                        <td class="px-1 py-3 text-right text-emerald-600 font-mono text-[11px] no-wrap border-l border-emerald-50/50">$ ${fmtCosto.format(costo)}</td>
                     </tr>`;
             });
 
@@ -184,7 +183,7 @@
             text += `\nGestión Fernando Araujo`;
 
             await navigator.clipboard.writeText(text);
-            showToast("LISTA COPIADA");
+            showToast("LISTA COPIADA EN VERDE");
         }
 
         window.onload = () => { loadPrices(); document.getElementById('cantidadPanes').value = 1; calcular(); };
