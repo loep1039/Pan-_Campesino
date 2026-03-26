@@ -51,7 +51,7 @@
                         </tr>
                     </thead>
                     <tbody id="listaIngredientes" class="divide-y divide-slate-50">
-                        </tbody>
+                    </tbody>
                 </table>
             </div>
 
@@ -66,6 +66,7 @@
     </div>
 
     <script>
+        // URL de tu Script de Google corregida
         const URL_NUBE = "https://script.google.com/macros/s/AKfycbzl8cTzjvfo6emxsDCrhRSaGo2ImlLU2Mgiu8_NDiaW6dSQHw6wv4-XJLiq9QkXcP3oBg/exec"; 
         let precios = {};
 
@@ -76,16 +77,20 @@
         async function cargarPrecios() {
             try {
                 const res = await fetch(URL_NUBE);
+                if (!res.ok) throw new Error('Fallo en la red');
                 const data = await res.json();
+                
+                // Normalización de claves para evitar errores por mayúsculas o espacios
                 precios = Object.keys(data).reduce((acc, key) => {
                     let valor = String(data[key]).replace(/[$\s]/g, '').replace(',', '.');
                     acc[key.toLowerCase().trim()] = parseFloat(valor) || 0;
                     return acc;
                 }, {});
+                
                 calcular();
             } catch (e) { 
-                console.error("Error cargando precios");
-                document.getElementById('costoTotal').innerText = "Error";
+                console.error("Error cargando precios:", e);
+                document.getElementById('costoTotal').innerText = "Error Enlace";
             }
         }
 
@@ -110,9 +115,9 @@
 
             receta.forEach(ing => {
                 const cantidadGramos = harinaTotal * (ing.pct / 100);
-                const precioPorKilo = precios[ing.nombre.toLowerCase().trim()] || 0;
+                const claveIngrediente = ing.nombre.toLowerCase().trim();
+                const precioPorKilo = precios[claveIngrediente] || 0;
                 
-                // Conversión de gramos a kilogramos para el costo
                 const subtotal = (cantidadGramos * precioPorKilo) / 1000;
                 
                 costoAcumulado += subtotal;
@@ -130,7 +135,9 @@
                     </tr>`;
             });
 
-            document.getElementById('costoTotal').innerText = `$ ${formatLatam(costoAcumulado, 2)}`;
+            if(Object.keys(precios).length > 0) {
+                document.getElementById('costoTotal').innerText = `$ ${formatLatam(costoAcumulado, 2)}`;
+            }
             document.getElementById('pesoTotalMasa').innerText = `${formatLatam(masaTotal, 0)} gr`;
             document.getElementById('listaIngredientes').innerHTML = html;
         }
@@ -165,7 +172,7 @@
                           `_Sistema de Gestión - Fernando Araujo_`;
 
             navigator.clipboard.writeText(texto).then(() => {
-                alert("¡Resumen detallado copiado! Ya puedes pegarlo en WhatsApp.");
+                alert("¡Copiado con éxito para WhatsApp!");
             });
         }
 
