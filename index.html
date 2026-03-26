@@ -3,99 +3,254 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Costos - Pan Campesino</title>
+    <title>Gestión Pan Francés - Fernando Araujo</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f4f9; padding: 20px; }
-        .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        h2 { color: #2c3e50; text-align: center; }
-        .input-group { margin-bottom: 20px; text-align: center; }
-        input { padding: 10px; width: 150px; border: 1px solid #ccc; border-radius: 4px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-        th { background-color: #4CAF50; color: white; }
-        tr:nth-child(even) { background-color: #f2f2f2; }
-        .total-row { font-weight: bold; background-color: #e8f5e9 !important; }
+        :root {
+            --verde-primario: #008f53;
+            --fondo-gris: #f8faf9;
+            --texto-oscuro: #1a202c;
+            --blanco: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e2e8f0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .phone-container {
+            width: 100%;
+            max-width: 400px;
+            background: var(--blanco);
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+
+        .status-bar {
+            font-size: 0.65rem;
+            padding: 8px;
+            text-align: center;
+            background: #f1f5f9;
+            color: #718096;
+            font-weight: 600;
+        }
+
+        .header {
+            background-color: var(--verde-primario);
+            color: white;
+            text-align: center;
+            padding: 25px 15px;
+        }
+        .header h1 { margin: 0; font-size: 1.3rem; letter-spacing: 2px; font-weight: 800; text-transform: uppercase; }
+        .header p { margin: 5px 0 0; font-size: 0.65rem; opacity: 0.9; font-weight: 600; }
+
+        .input-box {
+            background-color: #f7fafc;
+            padding: 25px 20px;
+            text-align: center;
+        }
+        .label-mini { font-size: 0.65rem; color: #a0aec0; text-transform: uppercase; font-weight: bold; display: block; margin-bottom: 8px; }
+        .qty-input {
+            width: 80%;
+            border: none;
+            background: transparent;
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--texto-oscuro);
+            text-align: center;
+            outline: none;
+        }
+
+        .summary {
+            display: flex;
+            gap: 15px;
+            padding: 0 20px 20px;
+        }
+        .card {
+            flex: 1;
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid #edf2f7;
+        }
+        .card.cost { background-color: #f0fff4; border: 1.5px solid #c6f6d5; }
+        .card-val { display: block; font-size: 1.2rem; font-weight: bold; margin-top: 4px; color: var(--texto-oscuro); }
+        
+        .list { padding: 10px 20px; min-height: 200px; }
+        .item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .ing-name { font-weight: 700; font-size: 0.9rem; color: #2d3748; }
+        .ing-pct { font-size: 0.7rem; color: #cbd5e0; font-weight: normal; margin-left: 4px; }
+        .ing-results { text-align: right; }
+        .ing-qty { display: block; font-weight: 700; font-size: 0.95rem; color: var(--texto-oscuro); }
+        .ing-price { font-size: 0.7rem; color: var(--verde-primario); font-weight: bold; }
+
+        .footer { padding: 20px; }
+        .btn-wa {
+            background-color: var(--verde-primario);
+            color: white;
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 0 4px 12px rgba(0,143,83,0.3);
+        }
+        
+        /* Efecto de carga */
+        .loading { opacity: 0.5; pointer-events: none; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>Calculadora de Pan Campesino</h2>
+<div class="phone-container">
+    <div id="status" class="status-bar"><i class="fas fa-sync fa-spin"></i> Conectando con Google Sheets...</div>
     
-    <div class="input-group">
-        <label for="harinaBase">Cantidad de Harina (gr): </label>
-        <input type="number" id="harinaBase" value="230" oninput="calcular()">
+    <div class="header">
+        <h1>PAN FRANCÉS</h1>
+        <p>SISTEMA DE GESTIÓN - FERNANDO ARAUJO</p>
     </div>
 
-    <table id="tablaReceta">
-        <thead>
-            <tr>
-                <th>Ingredientes</th>
-                <th>%</th>
-                <th>Cantidad (gr)</th>
-                <th>Precio x Kg</th>
-                <th>Costo ($)</th>
-            </tr>
-        </thead>
-        <tbody id="cuerpoTabla">
-            </tbody>
-        <tfoot>
-            <tr class="total-row">
-                <td colspan="2">TOTAL</td>
-                <td id="totalGramos">0</td>
-                <td>-</td>
-                <td id="totalCosto">0.00</td>
-            </tr>
-        </tfoot>
-    </table>
+    <div class="input-box" id="mainContent">
+        <span class="label-mini">Cantidad de Panes a Producir</span>
+        <input type="number" id="inputPanes" class="qty-input" value="2" min="1" oninput="calcular()">
+    </div>
+
+    <div class="summary">
+        <div class="card cost">
+            <span class="label-mini" style="color: #38a169;">Costo Insumos</span>
+            <span id="resCosto" class="card-val" style="color: #2f855a;">$ 0,00</span>
+        </div>
+        <div class="card">
+            <span class="label-mini">Masa Total</span>
+            <span id="resMasa" class="card-val">0 gr</span>
+        </div>
+    </div>
+
+    <div class="list" id="listaIngredientes">
+        </div>
+
+    <div class="footer">
+        <button class="btn-wa" onclick="enviarWhatsApp()">
+            <i class="fab fa-whatsapp"></i> Copiar para WhatsApp
+        </button>
+    </div>
 </div>
 
 <script>
-    // Datos extraídos de tus imágenes
-    const ingredientes = [
-        { nombre: "Harina", porcentaje: 100, precio: 1.26 },
-        { nombre: "Agua", porcentaje: 54.5, precio: 0.10 },
-        { nombre: "Levadura", porcentaje: 1.7, precio: 12.50 },
-        { nombre: "Sal", porcentaje: 2.0, precio: 0.40 },
-        { nombre: "Azúcar", porcentaje: 8, precio: 1.60 },
-        { nombre: "Margarina", porcentaje: 8, precio: 5.20 },
-        { nombre: "Vainilla", porcentaje: 0.8, precio: 2.00 }
-    ];
+    // URL DE TU PROPIO SCRIPT DE GOOGLE
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyK0o_LRZg2b75mrPzU63l6bPjFac01LWs3DA5tFVXJ3yR97DbBek1zEVD7JJySiDas/exec";
 
-    function calcular() {
-        const harinaInput = document.getElementById('harinaBase').value;
-        const harinaGramos = parseFloat(harinaInput) || 0;
-        const cuerpoTabla = document.getElementById('cuerpoTabla');
-        cuerpoTabla.innerHTML = "";
+    // Receta Base basada en tu tabla de Pan Francés (230g harina por pan)
+    const RECETA = {
+        harinaPorUnidad: 230,
+        items: [
+            { nombre: "Harina", pct: 100, precioKg: 0 },
+            { nombre: "Agua", pct: 54.5, precioKg: 0 },
+            { nombre: "Levadura", pct: 1.7, precioKg: 0 },
+            { nombre: "Sal", pct: 2.0, precioKg: 0 },
+            { nombre: "Azúcar", pct: 8.0, precioKg: 0 },
+            { nombre: "Margarina", pct: 8.0, precioKg: 0 },
+            { nombre: "Vainilla", pct: 0.8, precioKg: 0 }
+        ]
+    };
 
-        let sumaGramos = 0;
-        let sumaCosto = 0;
+    async function sincronizarPrecios() {
+        const statusEl = document.getElementById('status');
+        try {
+            // Llamada a la API de Google Sheets
+            const response = await fetch(WEB_APP_URL);
+            const data = await response.json();
+            
+            // Mapear los precios del Excel a nuestra receta
+            RECETA.items.forEach(ing => {
+                const encontrado = data.find(p => p.nombre.toLowerCase().trim() === ing.nombre.toLowerCase());
+                if (encontrado) {
+                    ing.precioKg = encontrado.precioKg;
+                }
+            });
 
-        ingredientes.forEach(ing => {
-            // Calcular peso basado en el porcentaje panadero
-            const peso = (harinaGramos * ing.porcentaje) / 100;
-            // Calcular costo (Peso en kg * precio x kg)
-            const costo = (peso / 1000) * ing.precio;
-
-            sumaGramos += peso;
-            sumaCosto += costo;
-
-            const fila = `<tr>
-                <td>${ing.nombre}</td>
-                <td>${ing.porcentaje}%</td>
-                <td>${peso.toFixed(2)} gr</td>
-                <td>$${ing.precio.toFixed(2)}</td>
-                <td>$${costo.toFixed(4)}</td>
-            </tr>`;
-            cuerpoTabla.innerHTML += fila;
-        });
-
-        document.getElementById('totalGramos').innerText = sumaGramos.toFixed(2) + " gr";
-        document.getElementById('totalCosto').innerText = "$" + sumaCosto.toFixed(2);
+            statusEl.innerHTML = '<i class="fas fa-check-circle"></i> Datos actualizados desde Google Sheets';
+            statusEl.style.color = "#008f53";
+            calcular(); 
+        } catch (error) {
+            statusEl.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error de conexión (Usando precios base)';
+            statusEl.style.color = "#e53e3e";
+            console.error("Error:", error);
+            calcular();
+        }
     }
 
-    // Ejecutar al cargar la página
-    window.onload = calcular;
+    function calcular() {
+        const panes = parseFloat(document.getElementById('inputPanes').value) || 0;
+        const contenedor = document.getElementById('listaIngredientes');
+        contenedor.innerHTML = '';
+
+        let masaTotal = 0;
+        let costoTotal = 0;
+
+        RECETA.items.forEach(ing => {
+            const gramos = (RECETA.harinaPorUnidad * panes) * (ing.pct / 100);
+            const costo = (gramos / 1000) * ing.precioKg;
+
+            masaTotal += gramos;
+            costoTotal += costo;
+
+            contenedor.innerHTML += `
+                <div class="item">
+                    <div class="ing-info">
+                        <span class="ing-name">${ing.nombre} <span class="ing-pct">(${ing.pct}%)</span></span>
+                    </div>
+                    <div class="ing-results">
+                        <span class="ing-qty">${gramos.toFixed(1)} gr</span>
+                        <span class="ing-price">$ ${costo.toFixed(3)}</span>
+                    </div>
+                </div>
+            `;
+        });
+
+        document.getElementById('resMasa').innerText = `${masaTotal.toFixed(0)} gr`;
+        document.getElementById('resCosto').innerText = `$ ${costoTotal.toFixed(2)}`;
+    }
+
+    function enviarWhatsApp() {
+        const panes = document.getElementById('inputPanes').value;
+        const masa = document.getElementById('resMasa').innerText;
+        const costo = document.getElementById('resCosto').innerText;
+        
+        let msg = `*GESTIÓN DE PRODUCCIÓN - PAN FRANCÉS*\n`;
+        msg += `🥖 Cantidad: ${panes} panes\n`;
+        msg += `⚖️ Masa Total: ${masa}\n`;
+        msg += `💰 Costo Insumos: ${costo}\n\n`;
+        msg += `*DETALLE:*\n`;
+
+        RECETA.items.forEach(ing => {
+            const gramos = (RECETA.harinaPorUnidad * panes) * (ing.pct / 100);
+            msg += `- ${ing.nombre}: ${gramos.toFixed(1)} gr\n`;
+        });
+
+        window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    // Ejecutar al cargar
+    window.onload = sincronizarPrecios;
 </script>
 
 </body>
