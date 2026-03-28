@@ -2,399 +2,293 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Menú de Panadería | Productos Artesanales</title>
-    <!-- Fuente profesional -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión Pan Campesino - Fernando Araujo</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --verde-primario: #008f53;
+            --fondo-gris: #f8faf9;
+            --texto-oscuro: #1a202c;
+            --blanco: #ffffff;
+            --gris-claro: #edf2f7;
+            --verde-claro: #f0fff4;
+            --verde-borde: #c6f6d5;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #fef7e8 0%, #fcf3e3 100%);
-            min-height: 100vh;
-            padding: 2rem 1.5rem;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e2e8f0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
         }
 
-        .menu-container {
-            max-width: 1400px;
+        .phone-container {
             width: 100%;
-            margin: 0 auto;
-        }
-
-        /* Encabezado elegante */
-        .header {
-            text-align: center;
-            margin-bottom: 3.5rem;
-            position: relative;
-        }
-
-        .header h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            color: #4b2e1a;
-            letter-spacing: -0.02em;
-            margin-bottom: 0.75rem;
-            display: inline-block;
-            background: linear-gradient(135deg, #5a3a24, #8b5a2b);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-        }
-
-        .header p {
-            font-size: 1.15rem;
-            color: #7a5a44;
-            font-weight: 400;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .header::after {
-            content: '';
-            display: block;
-            width: 80px;
-            height: 3px;
-            background: linear-gradient(90deg, #e7cfaa, #b68b40);
-            margin: 1rem auto 0;
-            border-radius: 2px;
-        }
-
-        /* Grid de productos */
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        /* Tarjeta profesional con imagen real */
-        .product-card {
-            background: #ffffff;
-            border-radius: 1.5rem;
+            max-width: 400px;
+            background: var(--blanco);
+            border-radius: 30px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-            text-decoration: none;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+
+        .status-bar {
+            font-size: 0.65rem;
+            padding: 8px;
+            text-align: center;
+            background: #f1f5f9;
+            color: #718096;
+            font-weight: 600;
+        }
+
+        .header-card {
+            background-color: var(--verde-primario);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 20px 20px 0 0;
+            margin: 10px;
+        }
+
+        .header-card p { margin: 0; font-size: 0.65rem; opacity: 0.9; text-transform: uppercase;}
+        .header-card h1 { margin: 5px 0 0; font-size: 1.3rem; letter-spacing: 2px; font-weight: 800; text-transform: uppercase; }
+
+        .summary {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            padding: 10px 20px 20px;
+        }
+
+        .card {
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid var(--gris-claro);
             display: flex;
             flex-direction: column;
-            border: 1px solid rgba(230, 200, 150, 0.3);
+            justify-content: center;
         }
 
-        .product-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-            border-color: #d4b48c;
-        }
+        .card.cost { background-color: var(--verde-claro); border: 1.5px solid var(--verde-borde); }
+        .card.quantity { grid-column: 1 / -1; margin-bottom: 5px; } /* Caja de cantidad ocupa todo el ancho */
 
-        /* Contenedor de imagen */
-        .image-container {
-            position: relative;
-            width: 100%;
-            height: 260px;
-            overflow: hidden;
-            background: #f9f0e4;
-        }
+        .label-mini { font-size: 0.6rem; color: #a0aec0; text-transform: uppercase; font-weight: bold; margin-bottom: 2px; }
+        .label-mini.cost-label { color: #38a169; }
 
-        .product-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
+        .card-val { font-size: 1.2rem; font-weight: bold; color: var(--texto-oscuro); }
+        .card-val.cost-val { color: #2f855a; }
 
-        .product-card:hover .product-image {
-            transform: scale(1.05);
-        }
-
-        /* Overlay sutil con gradiente */
-        .image-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
-            height: 80px;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .product-card:hover .image-overlay {
-            opacity: 1;
-        }
-
-        /* Contenido de la tarjeta */
-        .card-content {
-            padding: 1.5rem;
-            background: white;
-        }
-
-        .product-name {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #2c1a0e;
-            margin-bottom: 0.5rem;
-            letter-spacing: -0.3px;
-        }
-
-        .product-description {
-            font-size: 0.9rem;
-            color: #8b7355;
-            line-height: 1.5;
-            margin-bottom: 1rem;
-            font-weight: 400;
-        }
-
-        .product-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 1.25rem;
-        }
-
-        .tag {
-            font-size: 0.7rem;
-            background: #f8efe4;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            color: #b67b3e;
-            font-weight: 500;
-            letter-spacing: 0.3px;
-        }
-
-        .card-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding-top: 1rem;
-            border-top: 1px solid #f0e5d8;
-        }
-
-        .view-link {
-            color: #b67b3e;
-            font-weight: 600;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: gap 0.3s;
-        }
-
-        .product-card:hover .view-link {
-            gap: 0.75rem;
-        }
-
-        .view-link i {
-            font-size: 0.8rem;
-            transition: transform 0.3s;
-        }
-
-        .product-card:hover .view-link i {
-            transform: translateX(4px);
-        }
-
-        .price-badge {
-            font-size: 0.8rem;
-            color: #a06e3c;
-            background: #fef3e8;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-weight: 500;
-        }
-
-        /* Footer principal */
-        .footer-note {
+        .qty-input-small {
+            width: 50px;
+            border: none;
+            background: #edf2f7;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--texto-oscuro);
             text-align: center;
-            padding: 2rem 0 0;
-            font-size: 0.9rem;
-            color: #b48c62;
-            border-top: 1px solid #eedbbc;
+            padding: 5px;
+            outline: none;
+            margin-left: 5px;
+        }
+
+        .list { padding: 10px 20px; min-height: 200px; }
+        .item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .ing-name { font-weight: 700; font-size: 0.9rem; color: #2d3748; }
+        .ing-pct { font-size: 0.7rem; color: #cbd5e0; font-weight: normal; margin-left: 4px; }
+        .ing-results { text-align: right; }
+        .ing-qty { display: block; font-weight: 700; font-size: 0.95rem; color: var(--texto-oscuro); }
+        .ing-price { font-size: 0.7rem; color: var(--verde-primario); font-weight: bold; }
+
+        .footer { padding: 20px; text-align: center; }
+        .btn-wa {
+            background-color: var(--verde-primario);
+            color: white;
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 0.8rem;
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 2rem;
-            flex-wrap: wrap;
+            gap: 10px;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 0 4px 12px rgba(0,143,83,0.3);
+            transition: background-color 0.2s;
         }
-
-        .footer-note span {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            body {
-                padding: 1.5rem 1rem;
-            }
-            .header h1 {
-                font-size: 2.2rem;
-            }
-            .products-grid {
-                gap: 1.5rem;
-            }
-            .image-container {
-                height: 220px;
-            }
-            .product-name {
-                font-size: 1.3rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .products-grid {
-                grid-template-columns: 1fr;
-            }
+        .btn-wa:hover { background-color: #007040; }
+        .btn-wa:active { transform: translateY(1px); }
+        
+        /* Efecto de carga */
+        .loading { opacity: 0.5; pointer-events: none; }
+        
+        .copy-success {
+            font-size: 0.7rem;
+            color: #38a169;
+            margin-top: 5px;
+            display: none;
         }
     </style>
 </head>
 <body>
-<div class="menu-container">
-    <div class="header">
-        <h1>🍞 Panadería Artesanal</h1>
-        <p>Descubre nuestra selección de productos elaborados con tradición y los mejores ingredientes</p>
+
+<div class="phone-container">
+    <div id="status" class="status-bar"><i class="fas fa-sync fa-spin"></i> Conectando...</div>
+    
+    <div class="header-card">
+        <p>SISTEMA DE GESTIÓN - FERNANDO ARAUJO</p>
+        <h1>PAN CAMPESINO</h1>
     </div>
 
-    <div class="products-grid">
-        <!-- Pan Campesino - IMAGEN PERSONALIZADA -->
-        <a href="https://loep1039.github.io/Pan_Campesino/" class="product-card" target="_blank" rel="noopener noreferrer">
-            <div class="image-container">
-                <img class="product-image" src="https://raw.githubusercontent.com/loep1039/Imagenes/main/pan-campesino.webp" alt="Pan Campesino artesanal - Receta tradicional">
-                <div class="image-overlay"></div>
+    <div class="summary">
+        <div class="card quantity">
+            <label class="label-mini" for="inputPanes">Cantidad de Panes:</label>
+            <div style="display:flex; align-items:center; justify-content:center;">
+                <input type="number" id="inputPanes" class="qty-input-small" value="1" min="1" oninput="calcular()">
+                <span class="card-val" style="margin-left:5px;">unid.</span>
             </div>
-            <div class="card-content">
-                <h3 class="product-name">Pan Campesino</h3>
-                <p class="product-description">Pan rústico de masa madre, corteza crujiente y miga esponjosa con un sabor auténtico y tradicional</p>
-                <div class="product-tags">
-                    <span class="tag">Masa madre</span>
-                    <span class="tag">Artesanal</span>
-                    <span class="tag">Horno de piedra</span>
-                </div>
-                <div class="card-footer">
-                    <span class="view-link">Ver ficha técnica <i>→</i></span>
-                    <span class="price-badge">Desde $0.48</span>
-                </div>
-            </div>
-        </a>
-
-        <!-- Pan Francés -->
-        <a href="https://loep1039.github.io/Pan_Frances/" class="product-card" target="_blank" rel="noopener noreferrer">
-            <div class="image-container">
-                <img class="product-image" src="https://images.pexels.com/photos/263164/pexels-photo-263164.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Pan Francés baguette tradicional crujiente">
-                <div class="image-overlay"></div>
-            </div>
-            <div class="card-content">
-                <h3 class="product-name">Pan Francés</h3>
-                <p class="product-description">Crujiente por fuera, suave por dentro. El clásico baguette con la receta tradicional francesa</p>
-                <div class="product-tags">
-                    <span class="tag">Crujiente</span>
-                    <span class="tag">Tradicional</span>
-                    <span class="tag">Dorado perfecto</span>
-                </div>
-                <div class="card-footer">
-                    <span class="view-link">Ver ficha técnica <i>→</i></span>
-                    <span class="price-badge">Desde $0.10</span>
-                </div>
-            </div>
-        </a>
-
-        <!-- Pan Canilla -->
-        <a href="https://loep1039.github.io/Pan_Canilla/" class="product-card" target="_blank" rel="noopener noreferrer">
-            <div class="image-container">
-                <img class="product-image" src="https://images.pexels.com/photos/1049627/pexels-photo-1049627.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Pan Canilla artesanal alargado">
-                <div class="image-overlay"></div>
-            </div>
-            <div class="card-content">
-                <h3 class="product-name">Pan Canilla</h3>
-                <p class="product-description">Pan alargado de textura esponjosa, perfecto para acompañar comidas o disfrutar solo en cualquier momento</p>
-                <div class="product-tags">
-                    <span class="tag">Forma alargada</span>
-                    <span class="tag">Esponjoso</span>
-                    <span class="tag">Versátil</span>
-                </div>
-                <div class="card-footer">
-                    <span class="view-link">Ver ficha técnica <i>→</i></span>
-                    <span class="price-badge">Consultar precio</span>
-                </div>
-            </div>
-        </a>
-
-        <!-- Pan Pinita -->
-        <a href="https://loep1039.github.io/Pan_Pinita/" class="product-card" target="_blank" rel="noopener noreferrer">
-            <div class="image-container">
-                <img class="product-image" src="https://images.pexels.com/photos/6275161/pexels-photo-6275161.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Pan Pinita dulce tradicional">
-                <div class="image-overlay"></div>
-            </div>
-            <div class="card-content">
-                <h3 class="product-name">Pan Pinita</h3>
-                <p class="product-description">Pan dulce tradicional, suave y ligeramente azucarado, ideal para acompañar el café de las tardes</p>
-                <div class="product-tags">
-                    <span class="tag">Dulce típico</span>
-                    <span class="tag">Perfecto con café</span>
-                    <span class="tag">Tradicional</span>
-                </div>
-                <div class="card-footer">
-                    <span class="view-link">Ver ficha técnica <i>→</i></span>
-                    <span class="price-badge">Consultar precio</span>
-                </div>
-            </div>
-        </a>
-
-        <!-- Pan Hamburguesa -->
-        <a href="https://loep1039.github.io/Pan_Hamburguesa/" class="product-card" target="_blank" rel="noopener noreferrer">
-            <div class="image-container">
-                <img class="product-image" src="https://images.pexels.com/photos/1639556/pexels-photo-1639556.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Pan de Hamburguesa estilo brioche">
-                <div class="image-overlay"></div>
-            </div>
-            <div class="card-content">
-                <h3 class="product-name">Pan Hamburguesa</h3>
-                <p class="product-description">Pan estilo brioche, suave y ligeramente dulce, con semillas de sésamo, perfecto para las mejores hamburguesas</p>
-                <div class="product-tags">
-                    <span class="tag">Brioche</span>
-                    <span class="tag">Aterciopelado</span>
-                    <span class="tag">Premium</span>
-                </div>
-                <div class="card-footer">
-                    <span class="view-link">Ver ficha técnica <i>→</i></span>
-                    <span class="price-badge">Consultar precio</span>
-                </div>
-            </div>
-        </a>
-
-        <!-- Torta De Naranja -->
-        <a href="https://loep1039.github.io/Torta_De_Naranja/" class="product-card" target="_blank" rel="noopener noreferrer">
-            <div class="image-container">
-                <img class="product-image" src="https://images.pexels.com/photos/291528/pexels-photo-291528.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Torta de Naranja casera húmeda">
-                <div class="image-overlay"></div>
-            </div>
-            <div class="card-content">
-                <h3 class="product-name">Torta de Naranja</h3>
-                <p class="product-description">Deliciosa torta húmeda con jugo natural de naranja, aroma cítrico y textura inigualable que conquista paladares</p>
-                <div class="product-tags">
-                    <span class="tag">Húmeda</span>
-                    <span class="tag">Cítrica natural</span>
-                    <span class="tag">Receta casera</span>
-                </div>
-                <div class="card-footer">
-                    <span class="view-link">Ver ficha técnica <i>→</i></span>
-                    <span class="price-badge">Desde $2.93</span>
-                </div>
-            </div>
-        </a>
+        </div>
+        <div class="card cost">
+            <span class="label-mini cost-label">Costo Insumos</span>
+            <span id="resCosto" class="card-val cost-val">$ 0.00</span>
+        </div>
+        <div class="card">
+            <span class="label-mini">Masa Total</span>
+            <span id="resMasa" class="card-val">0 g</span>
+        </div>
     </div>
 
-    <div class="footer-note">
-        <span>📊 Sistema de gestión actualizado</span>
-        <span>👨‍🍳 Fernando Araujo</span>
-        <span>✨ Productos 100% artesanales</span>
-        <span>🏆 Calidad y tradición</span>
+    <div class="list" id="listaIngredientes">
+        </div>
+
+    <div class="footer">
+        <button class="btn-wa" onclick="copiarAlPortapapeles()">
+            <i class="fas fa-copy"></i> Copiar al Portapapeles
+        </button>
+        <span id="copyMessage" class="copy-success"><i class="fas fa-check"></i> ¡Copiado!</span>
     </div>
 </div>
+
+<script>
+    // URL DE TU PROPIO SCRIPT DE GOOGLE
+    const WEB_APP_URL = "https://gist.githubusercontent.com/loep1039/0b9fbae05f40bcd16a9a883c5ef0b999/raw/precios.json";
+
+    // Receta Base basada en tu tabla de Pan Campesino (230.0g harina por pan)
+    const RECETA = {
+        nombre: "Pan Campesino",
+        harinaPorUnidad: 230.0,
+        items: [
+            { nombre: "Harina", pct: 100.0, precioKg: 0 },
+            { nombre: "Agua", pct: 54.5, precioKg: 0 },
+            { nombre: "Levadura", pct: 1.7, precioKg: 0 },
+            { nombre: "Sal", pct: 2.0, precioKg: 0 },
+            { nombre: "Azúcar", pct: 8.0, precioKg: 0 },
+            { nombre: "Margarina", pct: 8.0, precioKg: 0 },
+            { nombre: "Vainilla", pct: 0.8, precioKg: 0 }
+        ]
+    };
+
+    async function sincronizarPrecios() {
+        const statusEl = document.getElementById('status');
+        try {
+            const response = await fetch(WEB_APP_URL);
+            const data = await response.json();
+            
+            RECETA.items.forEach(ing => {
+                const encontrado = data.find(p => p.nombre.toLowerCase().trim() === ing.nombre.toLowerCase());
+                if (encontrado) {
+                    ing.precioKg = encontrado.precioKg;
+                }
+            });
+
+            statusEl.innerHTML = '<i class="fas fa-check-circle"></i> Datos actualizados';
+            statusEl.style.color = "#008f53";
+            calcular(); 
+        } catch (error) {
+            statusEl.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error de conexión (Usando precios base)';
+            statusEl.style.color = "#e53e3e";
+            console.error("Error:", error);
+            calcular();
+        }
+    }
+
+    function calcular() {
+        const panes = parseFloat(document.getElementById('inputPanes').value) || 0;
+        const contenedor = document.getElementById('listaIngredientes');
+        contenedor.innerHTML = '';
+
+        let masaTotal = 0;
+        let costoTotal = 0;
+
+        RECETA.items.forEach(ing => {
+            const gramos = (RECETA.harinaPorUnidad * panes) * (ing.pct / 100);
+            const costo = (gramos / 1000) * ing.precioKg;
+
+            masaTotal += gramos;
+            costoTotal += costo;
+
+            contenedor.innerHTML += `
+                <div class="item">
+                    <div class="ing-info">
+                        <span class="ing-name">${ing.nombre} <span class="ing-pct">(${ing.pct}%)</span></span>
+                    </div>
+                    <div class="ing-results">
+                        <span class="ing-qty">${gramos.toFixed(1)} g</span>
+                        <span class="ing-price">$ ${costo.toFixed(3)}</span>
+                    </div>
+                </div>
+            `;
+        });
+
+        document.getElementById('resMasa').innerText = `${masaTotal.toFixed(0)} g`;
+        document.getElementById('resCosto').innerText = `$ ${costoTotal.toFixed(2)}`;
+    }
+
+    function copiarAlPortapapeles() {
+        const panes = document.getElementById('inputPanes').value;
+        const masaTotalStr = document.getElementById('resMasa').innerText;
+        const costoTotalStr = document.getElementById('resCosto').innerText;
+
+        let textoCopiar = `*${RECETA.nombre.toUpperCase()}* - *${costoTotalStr}*\n`;
+        textoCopiar += `MASA TOTAL: ${masaTotalStr}\n`;
+        textoCopiar += `---\n`;
+
+        RECETA.items.forEach(ing => {
+            const gramos = (RECETA.harinaPorUnidad * panes) * (ing.pct / 100);
+            textoCopiar += `${ing.nombre}: ${gramos.toFixed(1)} g\n`;
+        });
+
+        // Crea un elemento temporal para copiar el texto
+        const el = document.createElement('textarea');
+        el.value = textoCopiar;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+
+        // Muestra mensaje de éxito
+        const messageEl = document.getElementById('copyMessage');
+        messageEl.style.display = 'block';
+        setTimeout(() => {
+            messageEl.style.display = 'none';
+        }, 2000); // Oculta el mensaje después de 2 segundos
+    }
+
+    // Ejecutar al cargar
+    window.onload = sincronizarPrecios;
+</script>
+
 </body>
 </html>
