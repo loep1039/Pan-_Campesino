@@ -2,209 +2,347 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión Pan Campesino - Fernando Araujo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Pan Campesino | Gestión de Producción</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         :root {
-            --color-primario: #008f53;
-            --fondo-gris: #f8faf9;
-            --texto-oscuro: #1a202c;
-            --blanco: #ffffff;
-            --gris-claro: #edf2f7;
-            --color-claro: #f0fff4;
-            --color-borde: #c6f6d5;
+            --color-primary: #008f53;
+            --color-primary-dark: #00693e;
+            --color-primary-light: #e8f5e9;
+            --text-dark: #1e2a3a;
+            --text-muted: #64748b;
+            --bg-light: #f8fafc;
+            --white: #ffffff;
+            --border-light: #e2e8f0;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #e2e8f0;
-            margin: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            min-height: 100vh;
             display: flex;
             justify-content: center;
+            align-items: center;
             padding: 20px;
         }
 
-        .phone-container {
+        /* Contenedor principal estilo card */
+        .product-card {
             width: 100%;
-            max-width: 400px;
-            background: var(--blanco);
-            border-radius: 30px;
+            max-width: 420px;
+            background: var(--white);
+            border-radius: 32px;
             overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.25);
+            transition: transform 0.3s ease;
         }
 
-        .status-bar {
-            font-size: 0.65rem;
-            padding: 8px;
+        /* Header con gradiente profesional */
+        .product-header {
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+            padding: 24px 20px;
             text-align: center;
-            background: #f1f5f9;
-            color: #718096;
-            font-weight: 600;
+            position: relative;
         }
 
-        .header-card {
-            background-color: var(--color-primario);
-            color: white;
-            padding: 20px;
-            text-align: center;
-            border-radius: 20px 20px 0 0;
-            margin: 10px;
+        .product-header h1 {
+            color: var(--white);
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            margin-bottom: 6px;
         }
 
-        .header-card p { margin: 0; font-size: 0.65rem; opacity: 0.9; text-transform: uppercase;}
-        .header-card h1 { margin: 5px 0 0; font-size: 1.3rem; letter-spacing: 2px; font-weight: 800; text-transform: uppercase; }
+        .product-header p {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
 
-        /* Botón de retorno al menú principal */
-        .btn-back {
+        /* Botón de retorno elegante */
+        .back-button {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(8px);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            background-color: var(--color-primario);
-            padding: 12px 16px;
-            border-radius: 30px;
             text-decoration: none;
-            color: white;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.2s;
-            margin: 5px 20px 5px 20px;
-            border: 1px solid rgba(255,255,255,0.3);
-        }
-        .btn-back:hover {
-            background-color: #00693e;
-            transform: translateY(-2px);
-        }
-        .btn-back:active {
-            transform: translateY(1px);
+            transition: all 0.2s ease;
         }
 
-        .summary {
+        .back-button i {
+            color: white;
+            font-size: 1.1rem;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        /* Panel de resumen */
+        .summary-panel {
+            padding: 20px;
+            background: var(--bg-light);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            padding: 10px 20px 20px;
+            gap: 12px;
+            margin-bottom: 16px;
         }
 
-        .card {
-            padding: 15px;
-            border-radius: 15px;
+        .stat-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 14px;
             text-align: center;
-            border: 1px solid var(--gris-claro);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+            border: 1px solid var(--border-light);
+        }
+
+        .stat-card.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .stat-value.cost {
+            color: var(--color-primary);
+        }
+
+        /* Control de cantidad */
+        .quantity-control {
             display: flex;
-            flex-direction: column;
+            align-items: center;
             justify-content: center;
+            gap: 12px;
+            margin-top: 4px;
         }
 
-        .card.cost { background-color: var(--color-claro); border: 1.5px solid var(--color-borde); }
-        .card.quantity { grid-column: 1 / -1; margin-bottom: 5px; }
-
-        .label-mini { font-size: 0.6rem; color: #a0aec0; text-transform: uppercase; font-weight: bold; margin-bottom: 2px; }
-        .label-mini.cost-label { color: var(--color-primario); }
-
-        .card-val { font-size: 1.2rem; font-weight: bold; color: var(--texto-oscuro); }
-        .card-val.cost-val { color: var(--color-primario); }
-
-        .qty-input-small {
-            width: 50px;
-            border: none;
-            background: #edf2f7;
-            border-radius: 5px;
+        .qty-input {
+            width: 70px;
+            border: 1px solid var(--border-light);
+            border-radius: 40px;
             font-size: 1.2rem;
-            font-weight: bold;
-            color: var(--texto-oscuro);
+            font-weight: 600;
+            color: var(--text-dark);
             text-align: center;
-            padding: 5px;
+            padding: 8px 0;
             outline: none;
-            margin-left: 5px;
+            background: var(--white);
         }
 
-        .list { padding: 10px 20px; min-height: 200px; }
-        .item {
+        .qty-input:focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 2px rgba(0, 143, 83, 0.1);
+        }
+
+        .unit-text {
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        /* Lista de ingredientes */
+        .ingredients-list {
+            padding: 8px 20px 20px;
+            background: var(--white);
+        }
+
+        .section-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .ingredient-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid #f1f5f9;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--border-light);
         }
-        .ing-name { font-weight: 700; font-size: 0.9rem; color: #2d3748; }
-        .ing-pct { font-size: 0.7rem; color: #cbd5e0; font-weight: normal; margin-left: 4px; }
-        .ing-results { text-align: right; }
-        .ing-qty { display: block; font-weight: 700; font-size: 0.95rem; color: var(--texto-oscuro); }
-        .ing-price { font-size: 0.7rem; color: var(--color-primario); font-weight: bold; }
 
-        .footer { padding: 20px; text-align: center; }
-        .btn-wa {
-            background-color: var(--color-primario);
-            color: white;
+        .ingredient-item:last-child {
+            border-bottom: none;
+        }
+
+        .ingredient-name {
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 0.95rem;
+        }
+
+        .ingredient-percent {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            font-weight: normal;
+            margin-left: 4px;
+        }
+
+        .ingredient-details {
+            text-align: right;
+        }
+
+        .ingredient-quantity {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+        }
+
+        .ingredient-price {
+            font-size: 0.7rem;
+            color: var(--color-primary);
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        /* Botón de acción */
+        .action-button {
+            margin: 8px 20px 24px;
+        }
+
+        .btn-copy {
             width: 100%;
-            padding: 18px;
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+            color: white;
             border: none;
-            border-radius: 15px;
-            font-weight: bold;
-            font-size: 0.8rem;
+            padding: 16px;
+            border-radius: 48px;
+            font-weight: 600;
+            font-size: 0.9rem;
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             gap: 10px;
             cursor: pointer;
-            text-transform: uppercase;
-            box-shadow: 0 4px 12px rgba(0,143,83,0.3);
-            transition: background-color 0.2s;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0, 143, 83, 0.25);
         }
-        .btn-wa:hover { background-color: #007040; }
-        .btn-wa:active { transform: translateY(1px); }
-        
-        .copy-success {
+
+        .btn-copy:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 143, 83, 0.3);
+        }
+
+        .btn-copy:active {
+            transform: translateY(1px);
+        }
+
+        .copy-message {
+            text-align: center;
             font-size: 0.7rem;
-            color: var(--color-primario);
-            margin-top: 5px;
+            color: var(--color-primary);
+            margin-top: 10px;
             display: none;
+        }
+
+        /* Footer */
+        .footer-brand {
+            text-align: center;
+            padding: 16px 20px;
+            background: var(--bg-light);
+            border-top: 1px solid var(--border-light);
+        }
+
+        .footer-brand span {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            font-weight: 500;
         }
     </style>
 </head>
 <body>
 
-<div class="phone-container">
-    <div id="status" class="status-bar"><i class="fas fa-sync fa-spin"></i> Conectando...</div>
-    
-    <div class="header-card">
-        <p>SISTEMA DE GESTIÓN - FERNANDO ARAUJO</p>
+<div class="product-card">
+    <!-- Header con botón de retorno -->
+    <div class="product-header">
+        <a href="https://loep1039.github.io/Menu_Panaderia/" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+        </a>
         <h1>PAN CAMPESINO</h1>
+        <p>Sistema de gestión · Fernando Araujo</p>
     </div>
 
-    <!-- BOTÓN DE RETORNO AL MENÚ PRINCIPAL - Link funcionando -->
-    <a href="https://loep1039.github.io/Menu_Panaderia/" class="btn-back">
-        <i class="fas fa-arrow-left"></i> ← Volver al Menú Principal
-    </a>
-
-    <div class="summary">
-        <div class="card quantity">
-            <label class="label-mini" for="inputPanes">Cantidad de Panes:</label>
-            <div style="display:flex; align-items:center; justify-content:center;">
-                <input type="number" id="inputPanes" class="qty-input-small" value="1" min="1" oninput="calcular()">
-                <span class="card-val" style="margin-left:5px;">unid.</span>
+    <!-- Panel de resumen -->
+    <div class="summary-panel">
+        <div class="stats-grid">
+            <div class="stat-card full-width">
+                <div class="stat-label">Cantidad de panes</div>
+                <div class="quantity-control">
+                    <input type="number" id="inputPanes" class="qty-input" value="1" min="1" step="1">
+                    <span class="unit-text">unidades</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Costo insumos</div>
+                <div class="stat-value cost" id="resCosto">$ 0.00</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Masa total</div>
+                <div class="stat-value" id="resMasa">0 g</div>
             </div>
         </div>
-        <div class="card cost">
-            <span class="label-mini cost-label">Costo Insumos</span>
-            <span id="resCosto" class="card-val cost-val">$ 0.00</span>
+    </div>
+
+    <!-- Lista de ingredientes -->
+    <div class="ingredients-list">
+        <div class="section-title">
+            <i class="fas fa-flour" style="margin-right: 6px;"></i> Ingredientes
         </div>
-        <div class="card">
-            <span class="label-mini">Masa Total</span>
-            <span id="resMasa" class="card-val">0 g</span>
+        <div id="listaIngredientes"></div>
+    </div>
+
+    <!-- Botón de acción -->
+    <div class="action-button">
+        <button class="btn-copy" onclick="copiarAlPortapapeles()">
+            <i class="fas fa-copy"></i> Copiar lista de insumos
+        </button>
+        <div id="copyMessage" class="copy-message">
+            <i class="fas fa-check-circle"></i> ¡Lista copiada al portapapeles!
         </div>
     </div>
 
-    <div class="list" id="listaIngredientes">
-        </div>
-
-    <div class="footer">
-        <button class="btn-wa" onclick="copiarAlPortapapeles()">
-            <i class="fas fa-copy"></i> Copiar al Portapapeles
-        </button>
-        <span id="copyMessage" class="copy-success"><i class="fas fa-check"></i> ¡Copiado!</span>
+    <!-- Footer -->
+    <div class="footer-brand">
+        <span>📊 Gestión profesional de panadería</span>
     </div>
 </div>
 
@@ -225,8 +363,9 @@
         ]
     };
 
+    let preciosCargados = false;
+
     async function sincronizarPrecios() {
-        const statusEl = document.getElementById('status');
         try {
             const response = await fetch(WEB_APP_URL);
             const data = await response.json();
@@ -237,14 +376,10 @@
                     ing.precioKg = encontrado.precioKg;
                 }
             });
-
-            statusEl.innerHTML = '<i class="fas fa-check-circle"></i> Datos actualizados';
-            statusEl.style.color = "#008f53";
+            preciosCargados = true;
             calcular(); 
         } catch (error) {
-            statusEl.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error de conexión (Usando precios base)';
-            statusEl.style.color = "#e53e3e";
-            console.error("Error:", error);
+            console.error("Error al cargar precios:", error);
             calcular();
         }
     }
@@ -265,13 +400,14 @@
             costoTotal += costo;
 
             contenedor.innerHTML += `
-                <div class="item">
-                    <div class="ing-info">
-                        <span class="ing-name">${ing.nombre} <span class="ing-pct">(${ing.pct}%)</span></span>
+                <div class="ingredient-item">
+                    <div>
+                        <span class="ingredient-name">${ing.nombre}</span>
+                        <span class="ingredient-percent">(${ing.pct}%)</span>
                     </div>
-                    <div class="ing-results">
-                        <span class="ing-qty">${gramos.toFixed(1)} g</span>
-                        <span class="ing-price">$ ${costo.toFixed(3)}</span>
+                    <div class="ingredient-details">
+                        <div class="ingredient-quantity">${gramos.toFixed(1)} g</div>
+                        <div class="ingredient-price">$ ${costo.toFixed(3)}</div>
                     </div>
                 </div>
             `;
@@ -286,29 +422,32 @@
         const masaTotalStr = document.getElementById('resMasa').innerText;
         const costoTotalStr = document.getElementById('resCosto').innerText;
 
-        let textoCopiar = `*${RECETA.nombre.toUpperCase()}* - *${costoTotalStr}*\n`;
-        textoCopiar += `MASA TOTAL: ${masaTotalStr}\n`;
-        textoCopiar += `---\n`;
+        let textoCopiar = `🍞 ${RECETA.nombre.toUpperCase()}\n`;
+        textoCopiar += `━━━━━━━━━━━━━━━━━━━━\n`;
+        textoCopiar += `📊 Cantidad: ${panes} unidad(es)\n`;
+        textoCopiar += `💰 Costo insumos: ${costoTotalStr}\n`;
+        textoCopiar += `⚖️ Masa total: ${masaTotalStr}\n`;
+        textoCopiar += `━━━━━━━━━━━━━━━━━━━━\n`;
+        textoCopiar += `📋 LISTA DE INSUMOS:\n\n`;
 
         RECETA.items.forEach(ing => {
             const gramos = (RECETA.harinaPorUnidad * panes) * (ing.pct / 100);
-            textoCopiar += `${ing.nombre}: ${gramos.toFixed(1)} g\n`;
+            textoCopiar += `• ${ing.nombre}: ${gramos.toFixed(1)} g\n`;
         });
 
-        const el = document.createElement('textarea');
-        el.value = textoCopiar;
-        document.body.appendChild(el);
-        el.select();
-        document.execCommand('copy');
-        document.body.removeChild(el);
+        textoCopiar += `\n━━━━━━━━━━━━━━━━━━━━\n`;
+        textoCopiar += `Sistema de Gestión - Fernando Araujo`;
 
-        const messageEl = document.getElementById('copyMessage');
-        messageEl.style.display = 'block';
-        setTimeout(() => {
-            messageEl.style.display = 'none';
-        }, 2000);
+        navigator.clipboard.writeText(textoCopiar).then(() => {
+            const messageEl = document.getElementById('copyMessage');
+            messageEl.style.display = 'block';
+            setTimeout(() => {
+                messageEl.style.display = 'none';
+            }, 2000);
+        });
     }
 
+    document.getElementById('inputPanes').addEventListener('input', calcular);
     window.onload = sincronizarPrecios;
 </script>
 
