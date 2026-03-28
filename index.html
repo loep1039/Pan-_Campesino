@@ -7,7 +7,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --color-primario: #008f53;  /* Verde para Pan Campesino */
+            --color-primario: #008f53;
             --fondo-gris: #f8faf9;
             --texto-oscuro: #1a202c;
             --blanco: #ffffff;
@@ -55,26 +55,26 @@
         .header-card p { margin: 0; font-size: 0.65rem; opacity: 0.9; text-transform: uppercase;}
         .header-card h1 { margin: 5px 0 0; font-size: 1.3rem; letter-spacing: 2px; font-weight: 800; text-transform: uppercase; }
 
-        /* Botón de retorno */
+        /* Botón de retorno al menú principal */
         .btn-back {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(4px);
-            padding: 10px;
-            border-radius: 25px;
+            gap: 10px;
+            background-color: var(--color-primario);
+            padding: 12px 16px;
+            border-radius: 30px;
             text-decoration: none;
             color: white;
-            font-weight: 500;
-            font-size: 0.85rem;
+            font-weight: 600;
+            font-size: 0.9rem;
             transition: all 0.2s;
-            margin: -10px 20px 10px 20px;
+            margin: 5px 20px 5px 20px;
+            border: 1px solid rgba(255,255,255,0.3);
         }
         .btn-back:hover {
-            background: rgba(255,255,255,0.3);
-            transform: translateY(-1px);
+            background-color: #00693e;
+            transform: translateY(-2px);
         }
         .btn-back:active {
             transform: translateY(1px);
@@ -174,9 +174,9 @@
         <h1>PAN CAMPESINO</h1>
     </div>
 
-    <!-- BOTÓN DE RETORNO AL MENÚ PRINCIPAL -->
+    <!-- BOTÓN DE RETORNO AL MENÚ PRINCIPAL - Link funcionando -->
     <a href="https://loep1039.github.io/Menu_Panaderia/" class="btn-back">
-        <i class="fas fa-arrow-left"></i> Volver al Menú Principal
+        <i class="fas fa-arrow-left"></i> ← Volver al Menú Principal
     </a>
 
     <div class="summary">
