@@ -7,13 +7,13 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --verde-primario: #008f53;
+            --color-primario: #008f53;  /* Verde para Pan Campesino */
             --fondo-gris: #f8faf9;
             --texto-oscuro: #1a202c;
             --blanco: #ffffff;
             --gris-claro: #edf2f7;
-            --verde-claro: #f0fff4;
-            --verde-borde: #c6f6d5;
+            --color-claro: #f0fff4;
+            --color-borde: #c6f6d5;
         }
 
         body {
@@ -44,7 +44,7 @@
         }
 
         .header-card {
-            background-color: var(--verde-primario);
+            background-color: var(--color-primario);
             color: white;
             padding: 20px;
             text-align: center;
@@ -54,6 +54,31 @@
 
         .header-card p { margin: 0; font-size: 0.65rem; opacity: 0.9; text-transform: uppercase;}
         .header-card h1 { margin: 5px 0 0; font-size: 1.3rem; letter-spacing: 2px; font-weight: 800; text-transform: uppercase; }
+
+        /* Botón de retorno */
+        .btn-back {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(4px);
+            padding: 10px;
+            border-radius: 25px;
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            margin: -10px 20px 10px 20px;
+        }
+        .btn-back:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-1px);
+        }
+        .btn-back:active {
+            transform: translateY(1px);
+        }
 
         .summary {
             display: grid;
@@ -72,14 +97,14 @@
             justify-content: center;
         }
 
-        .card.cost { background-color: var(--verde-claro); border: 1.5px solid var(--verde-borde); }
-        .card.quantity { grid-column: 1 / -1; margin-bottom: 5px; } /* Caja de cantidad ocupa todo el ancho */
+        .card.cost { background-color: var(--color-claro); border: 1.5px solid var(--color-borde); }
+        .card.quantity { grid-column: 1 / -1; margin-bottom: 5px; }
 
         .label-mini { font-size: 0.6rem; color: #a0aec0; text-transform: uppercase; font-weight: bold; margin-bottom: 2px; }
-        .label-mini.cost-label { color: #38a169; }
+        .label-mini.cost-label { color: var(--color-primario); }
 
         .card-val { font-size: 1.2rem; font-weight: bold; color: var(--texto-oscuro); }
-        .card-val.cost-val { color: #2f855a; }
+        .card-val.cost-val { color: var(--color-primario); }
 
         .qty-input-small {
             width: 50px;
@@ -107,11 +132,11 @@
         .ing-pct { font-size: 0.7rem; color: #cbd5e0; font-weight: normal; margin-left: 4px; }
         .ing-results { text-align: right; }
         .ing-qty { display: block; font-weight: 700; font-size: 0.95rem; color: var(--texto-oscuro); }
-        .ing-price { font-size: 0.7rem; color: var(--verde-primario); font-weight: bold; }
+        .ing-price { font-size: 0.7rem; color: var(--color-primario); font-weight: bold; }
 
         .footer { padding: 20px; text-align: center; }
         .btn-wa {
-            background-color: var(--verde-primario);
+            background-color: var(--color-primario);
             color: white;
             width: 100%;
             padding: 18px;
@@ -131,12 +156,9 @@
         .btn-wa:hover { background-color: #007040; }
         .btn-wa:active { transform: translateY(1px); }
         
-        /* Efecto de carga */
-        .loading { opacity: 0.5; pointer-events: none; }
-        
         .copy-success {
             font-size: 0.7rem;
-            color: #38a169;
+            color: var(--color-primario);
             margin-top: 5px;
             display: none;
         }
@@ -151,6 +173,11 @@
         <p>SISTEMA DE GESTIÓN - FERNANDO ARAUJO</p>
         <h1>PAN CAMPESINO</h1>
     </div>
+
+    <!-- BOTÓN DE RETORNO AL MENÚ PRINCIPAL -->
+    <a href="https://loep1039.github.io/Menu_Panaderia/" class="btn-back">
+        <i class="fas fa-arrow-left"></i> Volver al Menú Principal
+    </a>
 
     <div class="summary">
         <div class="card quantity">
@@ -182,10 +209,8 @@
 </div>
 
 <script>
-    // URL DE TU PROPIO SCRIPT DE GOOGLE
     const WEB_APP_URL = "https://gist.githubusercontent.com/loep1039/0b9fbae05f40bcd16a9a883c5ef0b999/raw/precios.json";
 
-    // Receta Base basada en tu tabla de Pan Campesino (230.0g harina por pan)
     const RECETA = {
         nombre: "Pan Campesino",
         harinaPorUnidad: 230.0,
@@ -270,7 +295,6 @@
             textoCopiar += `${ing.nombre}: ${gramos.toFixed(1)} g\n`;
         });
 
-        // Crea un elemento temporal para copiar el texto
         const el = document.createElement('textarea');
         el.value = textoCopiar;
         document.body.appendChild(el);
@@ -278,15 +302,13 @@
         document.execCommand('copy');
         document.body.removeChild(el);
 
-        // Muestra mensaje de éxito
         const messageEl = document.getElementById('copyMessage');
         messageEl.style.display = 'block';
         setTimeout(() => {
             messageEl.style.display = 'none';
-        }, 2000); // Oculta el mensaje después de 2 segundos
+        }, 2000);
     }
 
-    // Ejecutar al cargar
     window.onload = sincronizarPrecios;
 </script>
 
